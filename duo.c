@@ -468,7 +468,7 @@ _duo_auth_call(struct duo_ctx *ctx, const char *method, const char *endpoint,
                 }
         }
         if (ctx->code == DUO_LIB_ERROR) {
-                _duo_seterr(ctx, "Couldn't parse auth message");
+                _duo_seterr(ctx, "Couldn't parse %s message", endpoint);
                 auth = duo_auth_free(auth);
         }
         return (auth);

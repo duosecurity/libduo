@@ -1,12 +1,14 @@
-The OpenSSH build requires application of the patch to the latest
-sources, and separately, the attached AuthenticationMethods submethod
-patch Markus committed for me upstream (to OpenBSD; Damien hasn't
-synced to -portable yet). You can still test using only this patch,
-and having Duo be the first and only kbdint method required for login.
+The OpenSSH build requires application of the openssh-duo.diff patch
+to the latest sources, and separately, the submethod-p.diff
+AuthenticationMethods submethod patch. submethod-p.diff has been
+submitted upstream to OpenBSD but hasn't synced to -portable yet. You
+can still test using only openssh-duo.diff patch, and having Duo be
+the first and only kbdint method required for login.
+
+An autoreconf is required if applying the patch to a release tarball.
 
 The Duo configuration is compiled in, specified at configure time as
 detailed in auth2-duo.c:
 
-CFLAGS='-DDUO_APIHOST=\"foohost\" -DDUO_IKEY=\"DI3656...\"' ./configure --with-libduo=../libduo ...
+CFLAGS='-DDUO_APIHOST=\"foohost\" -DDUO_IKEY=\"DI3656...\" -DDUO_SKEY=\"...\"' ./configure --with-libduo=../libduo ...
 
--d.

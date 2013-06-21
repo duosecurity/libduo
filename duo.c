@@ -357,9 +357,10 @@ _parse_preauth(JSON_Object *obj, union duo_auth_ok *ok)
                             "next_sms_passcode");
                         d->number = json_object_get_string(dev, "number");
                         d->type = json_object_get_string(dev, "type");
+                        d->capabilities = 0;
                         caps = json_object_get_array(dev, "capabilities");
                         if (caps == NULL)
-                                return (-1);
+                                continue;
                         for (i = 0; i < json_array_get_count(caps); i++) {
                                 p = json_array_get_string(caps, i);
                                 if (strcmp(p, "push") == 0)

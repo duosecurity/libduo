@@ -7,6 +7,6 @@ and having Duo be the first and only kbdint method required for login.
 The Duo configuration is compiled in, specified at configure time as
 detailed in auth2-duo.c:
 
-CFLAGS='-DDUO_APIHOST=\"foohost\" -DDUO_IKEY=\"SI3656...\"' ./configure --with-libduo=../libduo ...
+CFLAGS='-DDUO_APIHOST=\"foohost\" -DDUO_IKEY=\"DI3656...\"' ./configure --with-libduo=../libduo ...
 
 -d.

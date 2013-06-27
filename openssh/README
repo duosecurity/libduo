@@ -10,5 +10,5 @@ An autoreconf is required if applying the patch to a release tarball.
 The Duo configuration is compiled in, specified at configure time as
 detailed in auth2-duo.c:
 
-CFLAGS='-DDUO_APIHOST=\"foohost\" -DDUO_IKEY=\"DI3656...\" -DDUO_SKEY=\"...\"' ./configure --with-libduo=../libduo ...
+CFLAGS='-DDUO_APIHOST=\"foohost\" -DDUO_IKEY=\"DI3656...\" -DDUO_SKEY=\"...\"' ./configure --with-duo=../libduo ...
 

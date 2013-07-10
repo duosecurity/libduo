@@ -1,9 +1,7 @@
 The OpenSSH build requires application of the openssh-duo.diff patch
 to the latest sources, and separately, the submethod-p.diff
-AuthenticationMethods submethod patch. submethod-p.diff has been
-submitted upstream to OpenBSD but hasn't synced to -portable yet. You
-can still test using only openssh-duo.diff patch, and having Duo be
-the first and only kbdint method required for login.
+AuthenticationMethods submethod patch for versions of OpenSSH earlier
+than 6.2.
 
 An autoreconf is required if applying the patch to a release tarball.
 

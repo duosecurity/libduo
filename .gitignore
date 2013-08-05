@@ -18,3 +18,9 @@
 
 # Other
 *~
+
+# Output
+test-duologin
+test-duoapi
+config.*
+Makefile

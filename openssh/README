@@ -10,3 +10,4 @@ detailed in auth2-duo.c:
 
 CFLAGS='-DDUO_APIHOST=\"foohost\" -DDUO_IKEY=\"DI3656...\" -DDUO_SKEY=\"...\"' ./configure --with-duo=../libduo ...
 
+See https://www.duosecurity.com/docs/nativessh for more information

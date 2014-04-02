@@ -406,7 +406,12 @@ https_send(struct https_request *req, const char *method, const char *uri,
         if (strcmp(req->port, "443") != 0)
                 BIO_printf(req->cbio, ":%s", req->port);
         BIO_puts(req->cbio, "\r\n");
-        
+
+        /* Add User-agent header */
+        BIO_printf(req->cbio,
+                   "User-Agent: %s\r\n",
+                   ctx->useragent);
+
         /* Add headers */
         if (hdrs != NULL && (p = strdup(hdrs)) != NULL) {
                 BIO_printf(req->cbio, "%s\r\n", strtok(p, "\r\n"));

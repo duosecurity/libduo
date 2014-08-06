@@ -24,6 +24,9 @@ AC_PROG_INSTALL
 AC_PROG_EGREP
 AC_PATH_PROG([AR], [ar])
 
+# Check for functions
+AC_CHECK_FUNCS([getaddrinfo])
+
 if test -z "$LD" ; then
         LD=$CC
 fi

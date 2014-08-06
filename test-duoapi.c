@@ -20,8 +20,9 @@ _duo_codename(duocode_t code)
                 "DUO_OK", "DUO_FAIL", "DUO_LIB_ERROR", "DUO_CONN_ERROR",
                 "DUO_CLIENT_ERROR", "DUO_SERVER_ERROR"
         };
-        if (code < 0 || code > sizeof(codenames) / sizeof(*codenames))
+        if (!(code >= DUO_OK && code <= DUO_SERVER_ERROR)) {
                 return "unknown";
+        }
         return (codenames[code]);
 }
 

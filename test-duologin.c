@@ -41,6 +41,10 @@ main(int argc, char *argv[])
 		fprintf(stderr, "duo_init failed\n");
 		exit(1);
 	}
+	if (duo_set_timeout(duo, 20) != DUO_OK) {
+		fprintf(stderr, "duo_set_timeout failed :(\n");
+		exit(1);
+	}
         /* Call /preauth */
         if ((auth = duo_auth_preauth(duo, user)) == NULL) {
                 fprintf(stderr, "/preauth failed: %s\n", duo_get_error(duo));

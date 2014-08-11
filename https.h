@@ -10,6 +10,8 @@
 
 typedef struct https_request https_t;
 
+#define DUO_NO_TIMEOUT -1
+
 typedef enum {
         HTTPS_OK,
         HTTPS_ERR_SYSTEM,	/* system problem */
@@ -30,7 +32,7 @@ HTTPScode   https_send(https_t *h, const char *method, const char *uri,
                        const char *qs, const char *hdrs);
 
 /* Read response, return HTTP status code, set body and length if available */
-HTTPScode   https_recv(https_t *h, int *code, const char **body, int *length);
+HTTPScode   https_recv(https_t *h, int *code, const char **body, int *length, int msecs_timeout);
 
 /* Return and clear last API error */
 const char *https_geterr(void);

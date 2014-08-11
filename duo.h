@@ -29,6 +29,12 @@ typedef struct duo_ctx duo_t;
 duo_t	   *duo_init(const char *apihost, const char *ikey, const char *skey,
                 const char *progname, const char *cafile, const char *proxy);
 
+/* Configure a timeout on appropriate network operations.
+ * Set seconds to the number of seconds to wait for network operations,
+ * or 0 to disable timeouts.  The timeout is capped at 5 minutes.
+ */
+duocode_t duo_set_timeout(duo_t * const d, unsigned int seconds);
+
 /* Execute low-level API call */
 duocode_t   duo_call(duo_t *d, const char *method, const char *uri,
                 struct duo_param *params, int param_cnt);

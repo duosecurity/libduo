@@ -34,6 +34,7 @@ struct duo_ctx {
         char        err[256];            /* error message */
         duocode_t   code;                /* last code */
         const char *body;                /* response body */
+        int         https_timeout;       /* milliseconds timeout */
 };
 
 /* Initialize Duo API handle */
@@ -57,7 +58,26 @@ duo_init(const char *apihost, const char *ikey, const char *skey,
         if (https_init(useragent, cafile, proxy) != HTTPS_OK) {
                 ctx = duo_close(ctx);
         }
+        ctx->https_timeout = DUO_NO_TIMEOUT;
         return (ctx);
+}
+
+duocode_t
+duo_set_timeout(duo_t * const d, unsigned int seconds)
+{
+    /* set a floor on the timeout */
+    if (seconds <= 0) {
+        seconds = DUO_NO_TIMEOUT;
+    } else {
+        /* Set a ceiling on the timeout */
+        const int max_timeout = 60*5;
+        if (seconds > max_timeout) {
+            seconds = max_timeout;
+        }
+        /* https_timeout is in milliseconds */
+        d->https_timeout = seconds * 1000;
+    }
+    return DUO_OK;
 }
 
 static void
@@ -216,7 +236,7 @@ duo_call(struct duo_ctx *ctx, const char *method, const char *uri,
                 if (https_send(ctx->https,
                         method, uri, qs, hdrs) == HTTPS_OK &&
                     https_recv(ctx->https,
-                        &http_code, &ctx->body, &len) == HTTPS_OK) {
+                        &http_code, &ctx->body, &len, ctx->https_timeout) == HTTPS_OK) {
                         break;
                 }
                 https_close(&ctx->https);
@@ -403,7 +423,7 @@ struct _duo_auth_private {
         JSON_Value *json;
 };
 
-struct duo_auth *
+static struct duo_auth *
 _duo_auth_call(struct duo_ctx *ctx, const char *method, const char *endpoint,
     struct duo_param *params, int cnt)
 {
@@ -558,7 +578,12 @@ duo_auth_auth(struct duo_ctx *ctx, const char *username, const char *factor,
 {
         struct duo_param params[16];
         int n = 0;
+        int https_timeout;
+        struct duo_auth *retval;
 
+        /* Disable timeout for this call */
+        https_timeout = ctx->https_timeout;
+        ctx->https_timeout = DUO_NO_TIMEOUT;
         if (username)
                 ADD_PARAM(params, n, "username", username);
         if (factor)
@@ -585,7 +610,9 @@ duo_auth_auth(struct duo_ctx *ctx, const char *username, const char *factor,
         } else if (strcmp(factor, "prompt") == 0) {
                 ADD_PARAM(params, n, "prompt", (const char *)factor_arg);
         }
-        return (_duo_auth_call(ctx, "POST", "auth", params, n));
+        retval = _duo_auth_call(ctx, "POST", "auth", params, n);
+        ctx->https_timeout = https_timeout;
+        return retval;
 }
 
 struct duo_auth *

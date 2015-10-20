@@ -347,7 +347,7 @@ _parse_preauth(JSON_Object *obj, union duo_auth_ok *ok)
         JSON_Object *dev, *facs;
         struct duo_device *d;
         struct duo_factor *f;
-        int i, mask;
+        int i, j, mask;
         const char *p;
         
         ok->preauth.result = json_object_get_string(obj, "result");
@@ -366,7 +366,7 @@ _parse_preauth(JSON_Object *obj, union duo_auth_ok *ok)
                 if (ok->preauth.devices_cnt > DUO_MAX_DEVICES)
                         ok->preauth.devices_cnt = DUO_MAX_DEVICES;
                 
-                for (i = mask = 0; i < ok->preauth.devices_cnt; i++) {
+                for (i = mask = 0; i < ok->preauth.devices_cnt; i++, mask = 0) {
                         d = &ok->preauth.devices[i];
                         dev = json_array_get_object(devs, i);
                         d->device = json_object_get_string(dev, "device");
@@ -381,8 +381,8 @@ _parse_preauth(JSON_Object *obj, union duo_auth_ok *ok)
                         caps = json_object_get_array(dev, "capabilities");
                         if (caps == NULL)
                                 continue;
-                        for (i = 0; i < json_array_get_count(caps); i++) {
-                                p = json_array_get_string(caps, i);
+                        for (j = 0; j < json_array_get_count(caps); j++) {
+                                p = json_array_get_string(caps, j);
                                 if (strcmp(p, "push") == 0)
                                         mask |= DUO_DEVCAP_PUSH;
                                 else if (strcmp(p, "phone") == 0)

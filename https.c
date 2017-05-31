@@ -381,30 +381,29 @@ https_init(const char *useragent, const char *cafile, const char *proxy)
                 SSL_CTX_set_verify(ctx->ssl_ctx, SSL_VERIFY_PEER, NULL);
         }
         /* Save our proxy config if any */
-        if ((p = getenv("http_proxy")) != NULL ||
-            (p = (char *)proxy) != NULL) {
-                if (strstr(p, "://") != NULL) {
-                        if (strncmp(p, "http://", 7) != 0) {
-                                ctx->errstr = "http_proxy must be HTTP";
-                                return (HTTPS_ERR_CLIENT);
-                        }
-                        p += 7;
+        if (proxy != NULL) {
+            if (strstr(proxy, "://") != NULL) {
+                if (strncmp(proxy, "http://", 7) != 0) {
+                        ctx->errstr = "http_proxy must be HTTP";
+                        return (HTTPS_ERR_CLIENT);
                 }
-                p = strdup(p);
-                
-                if ((ctx->proxy = strchr(p, '@')) != NULL) {
-                        *ctx->proxy++ = '\0';
-                        ctx->proxy_auth = p;
-                } else {
-                        ctx->proxy = p;
-                }
-                strtok(ctx->proxy, "/");
-                
-                if ((ctx->proxy_port = strchr(ctx->proxy, ':')) != NULL) {
-                        *ctx->proxy_port++ = '\0';
-                } else {
-                        ctx->proxy_port = "80";
-                }
+                proxy += 7;
+            }
+            p = strdup(proxy);
+
+            if ((ctx->proxy = strchr(p, '@')) != NULL) {
+                    *ctx->proxy++ = '\0';
+                    ctx->proxy_auth = p;
+            } else {
+                    ctx->proxy = p;
+            }
+            strtok(ctx->proxy, "/");
+
+            if ((ctx->proxy_port = strchr(ctx->proxy, ':')) != NULL) {
+                    *ctx->proxy_port++ = '\0';
+            } else {
+                    ctx->proxy_port = "80";
+            }
         }
         /* Set HTTP parser callbacks */
         ctx->parse_settings.on_body = __on_body;

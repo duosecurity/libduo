@@ -57,8 +57,10 @@ duo_init(const char *apihost, const char *ikey, const char *skey,
         }
         if (https_init(useragent, cafile, proxy) != HTTPS_OK) {
                 ctx = duo_close(ctx);
+        } else
+        {
+            ctx->https_timeout = DUO_NO_TIMEOUT;
         }
-        ctx->https_timeout = DUO_NO_TIMEOUT;
         return (ctx);
 }
 

@@ -114,7 +114,11 @@ _SSL_check_server_cert(SSL *ssl, const char *hostname)
                 
                 for (i = 0; i < n && match != 1; i++) {
                         altname = sk_GENERAL_NAME_value(altnames, i);
+#if OPENSSL_VERSION_NUMBER >= 0x1010000fL
+                        p = (const char *) ASN1_STRING_get0_data(altname->d.ia5);
+#else
                         p = (char *)ASN1_STRING_data(altname->d.ia5);
+#endif
                         if (altname->type == GEN_DNS) {
                                 match = (ASN1_STRING_length(altname->d.ia5) ==
                                     strlen(p) && match_pattern(hostname, p));
@@ -133,7 +137,11 @@ _SSL_check_server_cert(SSL *ssl, const char *hostname)
                         if ((tmp = X509_NAME_ENTRY_get_data(
                                    X509_NAME_get_entry(subject, i))) != NULL &&
                             ASN1_STRING_type(tmp) == V_ASN1_UTF8STRING) {
+#if OPENSSL_VERSION_NUMBER >= 0x1010000fL
+                                p = (const char *)ASN1_STRING_get0_data(tmp);
+#else
                                 p = (char *)ASN1_STRING_data(tmp);
+#endif
                                 match = (ASN1_STRING_length(tmp) ==
                                     strlen(p) && match_pattern(hostname, p));
                         }
@@ -349,7 +357,11 @@ https_init(const char *useragent, const char *cafile, const char *proxy)
                         return (HTTPS_ERR_LIB);
                 }
         }
+#if OPENSSL_VERSION_NUMBER >= 0x1010000fL
+        if ((ctx->ssl_ctx = SSL_CTX_new(TLS_client_method())) == NULL) {
+#else
         if ((ctx->ssl_ctx = SSL_CTX_new(TLSv1_client_method())) == NULL) {
+#endif
                 ctx->errstr = _SSL_strerror();
                 return (HTTPS_ERR_LIB);
         }
@@ -491,7 +503,13 @@ https_open(struct https_request **reqp, const char *host)
                         _BIO_wait(req->cbio, 5000);
                 }
                 if (strncmp("HTTP/1.0 200", ctx->parse_buf, 12) != 0) {
-                        snprintf(ctx->errbuf, sizeof(ctx->errbuf),
+                        /* warning: directive output may be truncated writing up to 4095 bytes into a region of size 499 */
+                        /* ... note: ‘snprintf’ output between 14 and 4109 bytes into a destination of size 512 */
+                        #define MAX_OUTPUT  499
+                        int trunc = sizeof (ctx->errbuf);
+                        if (trunc > MAX_OUTPUT)
+                           trunc = MAX_OUTPUT;
+                        snprintf(ctx->errbuf, trunc,
                             "Proxy error: %s", ctx->parse_buf);
                         ctx->errstr = strtok(ctx->errbuf, "\r\n");
                         https_close(&req);

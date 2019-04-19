@@ -138,18 +138,39 @@ _sign_request(struct duo_ctx *ctx, const char *method, const char *uri,
     const char *qs)
 {
         BIO *bio, *b64;
-	HMAC_CTX hmac;
-	unsigned char MD[SHA_DIGEST_LENGTH];
+#if OPENSSL_VERSION_NUMBER >= 0x1010000fL
+        HMAC_CTX *hmac;
+#else
+        HMAC_CTX hmac;
+#endif
+        unsigned char MD[SHA_DIGEST_LENGTH];
         char *p, *buf, date[128];
         time_t t;
         int i, len;
 
         t = time(NULL);
         strftime(date, sizeof(date), "%a, %d %b %Y %T %z", localtime(&t));
-        
+
         /* Generate signature over the canonicalized request */
+#if OPENSSL_VERSION_NUMBER >= 0x1010000fL
+        /* NULL may be returned from openssl 1.1 */
+        if ((hmac = HMAC_CTX_new()) == NULL)
+           return NULL;
+        HMAC_Init_ex(hmac,  (const unsigned char *) ctx->skey, strlen(ctx->skey), EVP_sha1(), NULL);
+        HMAC_Update(hmac, (u_char *)date, strlen(date));
+        HMAC_Update(hmac, (u_char *)"\n", 1);
+        HMAC_Update(hmac, (u_char *)method, strlen(method));
+        HMAC_Update(hmac, (u_char *)"\n", 1);
+        HMAC_Update(hmac, (u_char *)ctx->host, strlen(ctx->host));
+        HMAC_Update(hmac, (u_char *)"\n", 1);
+        HMAC_Update(hmac, (u_char *)uri, strlen(uri));
+        HMAC_Update(hmac, (u_char *)"\n", 1);
+        HMAC_Update(hmac, (u_char *)qs, strlen(qs));
+        HMAC_Final(hmac, MD, NULL);
+        HMAC_CTX_free(hmac);
+#else
         HMAC_CTX_init(&hmac);
-	HMAC_Init(&hmac, ctx->skey, strlen(ctx->skey), EVP_sha1());
+        HMAC_Init(&hmac, ctx->skey, strlen(ctx->skey), EVP_sha1());
         HMAC_Update(&hmac, (u_char *)date, strlen(date));
         HMAC_Update(&hmac, (u_char *)"\n", 1);
         HMAC_Update(&hmac, (u_char *)method, strlen(method));
@@ -159,9 +180,9 @@ _sign_request(struct duo_ctx *ctx, const char *method, const char *uri,
         HMAC_Update(&hmac, (u_char *)uri, strlen(uri));
         HMAC_Update(&hmac, (u_char *)"\n", 1);
         HMAC_Update(&hmac, (u_char *)qs, strlen(qs));
-	HMAC_Final(&hmac, MD, NULL);
-	HMAC_CTX_cleanup(&hmac);
-        
+        HMAC_Final(&hmac, MD, NULL);
+        HMAC_CTX_cleanup(&hmac);
+#endif
         bio = BIO_new(BIO_s_mem());
         BIO_printf(bio, "Date: %s\r\n", date);
         BIO_puts(bio, "Authorization: Basic ");

@@ -503,13 +503,7 @@ https_open(struct https_request **reqp, const char *host)
                         _BIO_wait(req->cbio, 5000);
                 }
                 if (strncmp("HTTP/1.0 200", ctx->parse_buf, 12) != 0) {
-                        /* warning: directive output may be truncated writing up to 4095 bytes into a region of size 499 */
-                        /* ... note: ‘snprintf’ output between 14 and 4109 bytes into a destination of size 512 */
-                        #define MAX_OUTPUT  499
-                        int trunc = sizeof (ctx->errbuf);
-                        if (trunc > MAX_OUTPUT)
-                           trunc = MAX_OUTPUT;
-                        snprintf(ctx->errbuf, trunc,
+                        snprintf(ctx->errbuf, sizeof(ctx->errbuf),
                             "Proxy error: %s", ctx->parse_buf);
                         ctx->errstr = strtok(ctx->errbuf, "\r\n");
                         https_close(&req);

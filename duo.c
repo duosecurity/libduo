@@ -37,6 +37,33 @@ struct duo_ctx {
         int         https_timeout;       /* milliseconds timeout */
 };
 
+
+/* Provide implementations for HMAC_CTX_new and HMAC_CTX_free when
+ * building for OpenSSL versions older than 1.1.0
+ */
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+static HMAC_CTX *
+HMAC_CTX_new(void)
+{
+    HMAC_CTX *ctx = OPENSSL_malloc(sizeof(*ctx));
+    if (ctx != NULL) {
+        HMAC_CTX_init(ctx);
+    }
+    return ctx;
+}
+
+static void
+HMAC_CTX_free(HMAC_CTX *ctx)
+{
+    if (ctx != NULL) {
+        HMAC_CTX_cleanup(ctx);
+        OPENSSL_free(ctx);
+    }
+
+}
+#endif
+
+
 /* Initialize Duo API handle */
 struct duo_ctx *
 duo_init(const char *apihost, const char *ikey, const char *skey,
@@ -132,31 +159,27 @@ _params_to_qs(struct duo_param *params, int param_cnt)
         return (p);
 }
 
-/* Return proper HTTP headers to include for signed request */
+/* Return proper HTTP headers to include for signed request. Returns NULL if HMAC_CTX_new() fails */
 char *
 _sign_request(struct duo_ctx *ctx, const char *method, const char *uri,
     const char *qs)
 {
         BIO *bio, *b64;
-#if OPENSSL_VERSION_NUMBER >= 0x1010000fL
-        HMAC_CTX *hmac;
-#else
-        HMAC_CTX hmac;
-#endif
-        unsigned char MD[SHA_DIGEST_LENGTH];
+	HMAC_CTX *hmac;
+	unsigned char MD[SHA_DIGEST_LENGTH];
         char *p, *buf, date[128];
         time_t t;
         int i, len;
 
         t = time(NULL);
         strftime(date, sizeof(date), "%a, %d %b %Y %T %z", localtime(&t));
-
+        
         /* Generate signature over the canonicalized request */
-#if OPENSSL_VERSION_NUMBER >= 0x1010000fL
-        /* NULL may be returned from openssl 1.1 */
-        if ((hmac = HMAC_CTX_new()) == NULL)
-           return NULL;
-        HMAC_Init_ex(hmac,  (const unsigned char *) ctx->skey, strlen(ctx->skey), EVP_sha1(), NULL);
+        if ((hmac = HMAC_CTX_new()) == NULL) {
+           return (NULL);
+        }
+
+	HMAC_Init_ex(hmac, ctx->skey, strlen(ctx->skey), EVP_sha1(), NULL);
         HMAC_Update(hmac, (u_char *)date, strlen(date));
         HMAC_Update(hmac, (u_char *)"\n", 1);
         HMAC_Update(hmac, (u_char *)method, strlen(method));
@@ -166,23 +189,9 @@ _sign_request(struct duo_ctx *ctx, const char *method, const char *uri,
         HMAC_Update(hmac, (u_char *)uri, strlen(uri));
         HMAC_Update(hmac, (u_char *)"\n", 1);
         HMAC_Update(hmac, (u_char *)qs, strlen(qs));
-        HMAC_Final(hmac, MD, NULL);
-        HMAC_CTX_free(hmac);
-#else
-        HMAC_CTX_init(&hmac);
-        HMAC_Init(&hmac, ctx->skey, strlen(ctx->skey), EVP_sha1());
-        HMAC_Update(&hmac, (u_char *)date, strlen(date));
-        HMAC_Update(&hmac, (u_char *)"\n", 1);
-        HMAC_Update(&hmac, (u_char *)method, strlen(method));
-        HMAC_Update(&hmac, (u_char *)"\n", 1);
-        HMAC_Update(&hmac, (u_char *)ctx->host, strlen(ctx->host));
-        HMAC_Update(&hmac, (u_char *)"\n", 1);
-        HMAC_Update(&hmac, (u_char *)uri, strlen(uri));
-        HMAC_Update(&hmac, (u_char *)"\n", 1);
-        HMAC_Update(&hmac, (u_char *)qs, strlen(qs));
-        HMAC_Final(&hmac, MD, NULL);
-        HMAC_CTX_cleanup(&hmac);
-#endif
+	HMAC_Final(hmac, MD, NULL);
+	HMAC_CTX_free(hmac);
+        
         bio = BIO_new(BIO_s_mem());
         BIO_printf(bio, "Date: %s\r\n", date);
         BIO_puts(bio, "Authorization: Basic ");

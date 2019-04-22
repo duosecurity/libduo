@@ -91,6 +91,15 @@ _SSL_strerror(void)
         return (p ? p : strerror(errno));
 }
 
+/* OpenSSL 1.1 interface deprecation fixes */
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+static const unsigned char *
+ASN1_STRING_get0_data (ASN1_STRING *x)
+{
+   return (ASN1_STRING_data(x));
+}
+#endif
+
 /* Server certificate name check, logic adapted from libcurl */
 static int
 _SSL_check_server_cert(SSL *ssl, const char *hostname)
@@ -114,11 +123,7 @@ _SSL_check_server_cert(SSL *ssl, const char *hostname)
                 
                 for (i = 0; i < n && match != 1; i++) {
                         altname = sk_GENERAL_NAME_value(altnames, i);
-#if OPENSSL_VERSION_NUMBER >= 0x1010000fL
-                        p = (const char *) ASN1_STRING_get0_data(altname->d.ia5);
-#else
-                        p = (char *)ASN1_STRING_data(altname->d.ia5);
-#endif
+                        p = (char *)ASN1_STRING_get0_data(altname->d.ia5);
                         if (altname->type == GEN_DNS) {
                                 match = (ASN1_STRING_length(altname->d.ia5) ==
                                     strlen(p) && match_pattern(hostname, p));
@@ -137,11 +142,7 @@ _SSL_check_server_cert(SSL *ssl, const char *hostname)
                         if ((tmp = X509_NAME_ENTRY_get_data(
                                    X509_NAME_get_entry(subject, i))) != NULL &&
                             ASN1_STRING_type(tmp) == V_ASN1_UTF8STRING) {
-#if OPENSSL_VERSION_NUMBER >= 0x1010000fL
-                                p = (const char *)ASN1_STRING_get0_data(tmp);
-#else
-                                p = (char *)ASN1_STRING_data(tmp);
-#endif
+                                p = (char *)ASN1_STRING_get0_data(tmp);
                                 match = (ASN1_STRING_length(tmp) ==
                                     strlen(p) && match_pattern(hostname, p));
                         }
@@ -357,11 +358,7 @@ https_init(const char *useragent, const char *cafile, const char *proxy)
                         return (HTTPS_ERR_LIB);
                 }
         }
-#if OPENSSL_VERSION_NUMBER >= 0x1010000fL
-        if ((ctx->ssl_ctx = SSL_CTX_new(TLS_client_method())) == NULL) {
-#else
-        if ((ctx->ssl_ctx = SSL_CTX_new(TLSv1_client_method())) == NULL) {
-#endif
+        if ((ctx->ssl_ctx = SSL_CTX_new(SSLv23_client_method())) == NULL) {
                 ctx->errstr = _SSL_strerror();
                 return (HTTPS_ERR_LIB);
         }

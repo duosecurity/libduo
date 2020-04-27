@@ -1,5 +1,10 @@
 # Overview
 
+[![Issues](https://img.shields.io/github/issues/duosecurity/libduo)](https://github.com/duosecurity/libduo/issues)
+[![Forks](https://img.shields.io/github/forks/duosecurity/libduo)](https://github.com/duosecurity/libduo/network/members)
+[![Stars](https://img.shields.io/github/stars/duosecurity/libduo)](https://github.com/duosecurity/libduo/stargazers)
+[![License](https://img.shields.io/badge/License-View%20License-orange)](https://github.com/duosecurity/libduo/blob/master/LICENSE)
+
 A Duo API implementation in C.
 
 **Auth** - https://www.duosecurity.com/docs/authapi

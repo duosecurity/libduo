@@ -1,0 +1,14 @@
+language: c
+sudo: required
+dist: trusty
+compiler:
+    - clang
+    - gcc
+before_install:
+    - sudo apt-get -qq update
+    - sudo apt-get install -y automake
+    - sudo apt-get install -y cppcheck
+script:
+    - ./configure
+    - make
+    - cppcheck --quiet --force  --suppressions-list=.false_positive.txt --error-exitcode=1 .

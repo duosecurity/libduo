@@ -59,3 +59,12 @@ duoapi> GET /admin/v1/users [username=testuser]
    'username': 'testuser'}],
  'stat': 'OK'}
 ```
+
+# Static Analysis
+
+Install [cppcheck](http://cppcheck.sourceforge.net/)
+
+```
+$ cppcheck --quiet --force  --suppressions-list=.false_positive.txt --error-exitcode=1 .
+```
+.false_positive.txt is a list of errors that were found to not be errors when running the above command for Cppcheck.

@@ -179,7 +179,7 @@ _sign_request(struct duo_ctx *ctx, const char *method, const char *uri,
            return (NULL);
         }
 
-        HMAC_Init_ex(hmac, ctx->skey, strlen(ctx->skey), EVP_sha1(), NULL);
+        HMAC_Init_ex(hmac, ctx->skey, strlen(ctx->skey), EVP_sha512(), NULL);
         HMAC_Update(hmac, (u_char *)date, strlen(date));
         HMAC_Update(hmac, (u_char *)"\n", 1);
         HMAC_Update(hmac, (u_char *)method, strlen(method));

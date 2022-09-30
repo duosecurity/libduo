@@ -166,7 +166,7 @@ _sign_request(struct duo_ctx *ctx, const char *method, const char *uri,
 {
         BIO *bio, *b64;
         HMAC_CTX *hmac;
-        unsigned char MD[SHA_DIGEST_LENGTH];
+        unsigned char MD[SHA512_DIGEST_LENGTH];
         char *p, *buf, date[128];
         time_t t;
         int i, len;

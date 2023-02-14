@@ -23,6 +23,10 @@ $ ./configure
 $ make
 ```
 
+## TLS 1.2 and 1.3 Support
+
+libduo uses the system's OpenSSL library for TLS operations. It will use the highest TLS version available when making API calls to Duo. TLS 1.2 support requires OpenSSL 1.0.1 or higher; TLS 1.3 support requires OpenSSL 1.1.1 or higher.
+
 # Testing
 
 Auth:

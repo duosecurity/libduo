@@ -29,6 +29,7 @@ libduo uses the system's OpenSSL library for TLS operations. It will use the hig
 
 # Testing
 
+
 Auth:
 
 ```

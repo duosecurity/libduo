@@ -658,6 +658,7 @@ duo_auth_free(struct duo_auth *auth)
                                 json_value_free(prv->json);
                         if (prv->body)
                                 free(prv->body);
+                        free(prv);
                 }
                 free(auth);
         }

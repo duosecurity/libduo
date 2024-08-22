@@ -544,7 +544,6 @@ HTTPScode
 https_send(struct https_request *req, const char *method, const char *uri,
     const char *qs, const char *hdrs)
 {
-        char *p;
         int n, qsbody;
             
         req->done = 0;
@@ -571,10 +570,16 @@ https_send(struct https_request *req, const char *method, const char *uri,
                    ctx->useragent);
 
         /* Add headers */
-        if (hdrs != NULL && (p = strdup(hdrs)) != NULL) {
-                BIO_printf(req->cbio, "%s\r\n", strtok(p, "\r\n"));
-                while ((p = strtok(NULL, "\r\n")) != NULL && *p)
-                        BIO_printf(req->cbio, "%s\r\n", p);
+        if (hdrs != NULL) {
+                char *hdrs_dup = strdup(hdrs);
+                if (hdrs_dup != NULL) {
+                        char *p = strtok(hdrs_dup, "\r\n");
+                        while (p) {
+                                BIO_printf(req->cbio, "%s\r\n", p);
+                                p = strtok(NULL, "\r\n");
+                        }
+                        free(hdrs_dup);
+                }
         }
         /* Finish request */
         if (qs != NULL && qsbody) {

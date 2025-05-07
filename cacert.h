@@ -8,6 +8,17 @@
 #ifndef CACERT_H
 #define CACERT_H
 
+/* 
+# Source URL: https://www.amazontrust.com/repository/AmazonRootCA1.cer
+# Certificate #1 Details:
+# Original Format: DER
+# Subject: CN=Amazon Root CA 1,O=Amazon,C=US
+# Issuer: CN=Amazon Root CA 1,O=Amazon,C=US
+# Expiration Date: 2038-01-17 00:00:00
+# Serial Number: 66C9FCF99BF8C0A39E2F0788A43E696365BCA
+# SHA256 Fingerprint: 8ecde6884f3d87b1125ba31ac3fcb13d7016de7f57cc904fe1cb97c6ae98196e
+*/
+
 #define DIGICERT1_PEM \
 "-----BEGIN CERTIFICATE-----\n"\
 "MIIDQTCCAimgAwIBAgITBmyfz5m/jAo54vB4ikPmljZbyjANBgkqhkiG9w0BAQsF\n"\
@@ -31,6 +42,16 @@
 "-----END CERTIFICATE-----\n"
 
 
+/* 
+# Source URL: https://www.amazontrust.com/repository/AmazonRootCA2.cer
+# Certificate #1 Details:
+# Original Format: DER
+# Subject: CN=Amazon Root CA 2,O=Amazon,C=US
+# Issuer: CN=Amazon Root CA 2,O=Amazon,C=US
+# Expiration Date: 2040-05-26 00:00:00
+# Serial Number: 66C9FD29635869F0A0FE58678F85B26BB8A37
+# SHA256 Fingerprint: 1ba5b2aa8c65401a82960118f80bec4f62304d83cec4713a19c39c011ea46db4
+*/
 
 #define DIGICERT2_PEM \
 "-----BEGIN CERTIFICATE-----\n"\
@@ -66,6 +87,16 @@
 "-----END CERTIFICATE-----\n"
 
 
+/* 
+# Source URL: https://www.amazontrust.com/repository/AmazonRootCA3.cer
+# Certificate #1 Details:
+# Original Format: DER
+# Subject: CN=Amazon Root CA 3,O=Amazon,C=US
+# Issuer: CN=Amazon Root CA 3,O=Amazon,C=US
+# Expiration Date: 2040-05-26 00:00:00
+# Serial Number: 66C9FD5749736663F3B0B9AD9E89E7603F24A
+# SHA256 Fingerprint: 18ce6cfe7bf14e60b2e347b8dfe868cb31d02ebb3ada271569f50343b46db3a4
+*/
 
 #define DIGICERT3_PEM \
 "-----BEGIN CERTIFICATE-----\n"\
@@ -82,6 +113,17 @@
 "-----END CERTIFICATE-----\n"
 
 
+/* 
+# Source URL: https://www.amazontrust.com/repository/AmazonRootCA4.cer
+# Certificate #1 Details:
+# Original Format: DER
+# Subject: CN=Amazon Root CA 4,O=Amazon,C=US
+# Issuer: CN=Amazon Root CA 4,O=Amazon,C=US
+# Expiration Date: 2040-05-26 00:00:00
+# Serial Number: 66C9FD7C1BB104C2943E5717B7B2CC81AC10E
+# SHA256 Fingerprint: e35d28419ed02025cfa69038cd623962458da5c695fbdea3c22b0bfb25897092
+*/
+
 #define TW1_PEM \
 "-----BEGIN CERTIFICATE-----\n"\
 "MIIB8jCCAXigAwIBAgITBmyf18G7EEwpQ+Vxe3ssyBrBDjAKBggqhkjOPQQDAzA5\n"\
@@ -97,6 +139,16 @@
 "1KyLa2tJElMzrdfkviT8tQp21KW8EA==\n"\
 "-----END CERTIFICATE-----\n"
 
+/* 
+# Source URL: https://www.amazontrust.com/repository/SFSRootCAG2.cer
+# Certificate #1 Details:
+# Original Format: DER
+# Subject: CN=Starfield Services Root Certificate Authority - G2,O=Starfield Technologies\, Inc.,L=Scottsdale,ST=Arizona,C=US
+# Issuer: CN=Starfield Services Root Certificate Authority - G2,O=Starfield Technologies\, Inc.,L=Scottsdale,ST=Arizona,C=US
+# Expiration Date: 2037-12-31 23:59:59
+# Serial Number: 0
+# SHA256 Fingerprint: 568d6905a2c88708a4b3025190edcfedb1974a606a13c6e5290fcb2ae63edab5
+*/
 
 #define TW2_PEM \
 "-----BEGIN CERTIFICATE-----\n"\
@@ -124,6 +176,16 @@
 "sSi6\n"\
 "-----END CERTIFICATE-----\n"
 
+/* 
+# Source URL: https://cacerts.digicert.com/DigiCertHighAssuranceEVRootCA.crt
+# Certificate #1 Details:
+# Original Format: DER
+# Subject: CN=DigiCert High Assurance EV Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US
+# Issuer: CN=DigiCert High Assurance EV Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US
+# Expiration Date: 2031-11-10 00:00:00
+# Serial Number: 2AC5C266A0B409B8F0B79F2AE462577
+# SHA256 Fingerprint: 7431e5f4c3c1ce4690774f0b61e05440883ba9a01ed00ba6abd7806ed3b118cf
+*/
 
 #define DIGICERT_EVROOTCA \
 "-----BEGIN CERTIFICATE-----\n"\
@@ -150,6 +212,17 @@
 "+OkuE6N36B9K\n"\
 "-----END CERTIFICATE-----\n"
 
+/* 
+# Source URL: https://cacerts.digicert.com/DigiCertTLSECCP384RootG5.crt
+# Certificate #1 Details:
+# Original Format: DER
+# Subject: CN=DigiCert TLS ECC P384 Root G5,O=DigiCert\, Inc.,C=US
+# Issuer: CN=DigiCert TLS ECC P384 Root G5,O=DigiCert\, Inc.,C=US
+# Expiration Date: 2046-01-14 23:59:59
+# Serial Number: 9E09365ACF7D9C8B93E1C0B042A2EF3
+# SHA256 Fingerprint: 018e13f0772532cf809bd1b17281867283fc48c6e13be9c69812854a490c1b05
+*/
+
 #define DIGICERT_TSL1 \
 "-----BEGIN CERTIFICATE-----\n"\
 "MIICGTCCAZ+gAwIBAgIQCeCTZaz32ci5PhwLBCou8zAKBggqhkjOPQQDAzBOMQsw\n"\
@@ -166,23 +239,18 @@
 "DXZDjC5Ty3zfDBeWUA==\n"\
 "-----END CERTIFICATE-----\n"
 
-#define DIGICERT_TSL2 \
-"-----BEGIN CERTIFICATE-----\n"\
-"MIICGTCCAZ+gAwIBAgIQCeCTZaz32ci5PhwLBCou8zAKBggqhkjOPQQDAzBOMQsw\n"\
-"CQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xJjAkBgNVBAMTHURp\n"\
-"Z2lDZXJ0IFRMUyBFQ0MgUDM4NCBSb290IEc1MB4XDTIxMDExNTAwMDAwMFoXDTQ2\n"\
-"MDExNDIzNTk1OVowTjELMAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJ\n"\
-"bmMuMSYwJAYDVQQDEx1EaWdpQ2VydCBUTFMgRUNDIFAzODQgUm9vdCBHNTB2MBAG\n"\
-"ByqGSM49AgEGBSuBBAAiA2IABMFEoc8Rl1Ca3iOCNQfN0MsYndLxf3c1TzvdlHJS\n"\
-"7cI7+Oz6e2tYIOyZrsn8aLN1udsJ7MgT9U7GCh1mMEy7H0cKPGEQQil8pQgO4CLp\n"\
-"0zVozptjn4S1mU1YoI71VOeVyaNCMEAwHQYDVR0OBBYEFMFRRVBZqz7nLFr6ICIS\n"\
-"B4CIfBFqMA4GA1UdDwEB/wQEAwIBhjAPBgNVHRMBAf8EBTADAQH/MAoGCCqGSM49\n"\
-"BAMDA2gAMGUCMQCJao1H5+z8blUD2WdsJk6Dxv3J+ysTvLd6jLRl0mlpYxNjOyZQ\n"\
-"LgGheQaRnUi/wr4CMEfDFXuxoJGZSZOoPHzoRgaLLPIxAJSdYsiJvRmEFOml+wG4\n"\
-"DXZDjC5Ty3zfDBeWUA==\n"\
-"-----END CERTIFICATE-----\n"
+/* 
+# Source URL: https://cacerts.digicert.com/DigiCertTLSRSA4096RootG5.crt
+# Certificate #1 Details:
+# Original Format: DER
+# Subject: CN=DigiCert TLS RSA4096 Root G5,O=DigiCert\, Inc.,C=US
+# Issuer: CN=DigiCert TLS RSA4096 Root G5,O=DigiCert\, Inc.,C=US
+# Expiration Date: 2046-01-14 23:59:59
+# Serial Number: 8F9B478A8FA7EDA6A333789DE7CCF8A
+# SHA256 Fingerprint: 371a00dc0533b3721a7eeb40e8419e70799d2b0a0f2c1d80693165f7cec4ad75
+*/
 
-#define DIGICERT_TSL3 \
+#define DIGICERT_TSL2 \
 "-----BEGIN CERTIFICATE-----\n"\
 "MIIFZjCCA06gAwIBAgIQCPm0eKj6ftpqMzeJ3nzPijANBgkqhkiG9w0BAQwFADBN\n"\
 "MQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xJTAjBgNVBAMT\n"\
@@ -214,6 +282,17 @@
 "qUITVuwhd4GTWgzqltlJyqEI8pc7bZsEGCREjnwB8twl2F6GmrE52/WRMmrRpnCK\n"\
 "ovfepEWFJqgejF0pW8hL2JpqA15w8oVPbEtoL8pU9ozaMv7Da4M/OMZ+\n"\
 "-----END CERTIFICATE-----\n"
+
+/* 
+# Source URL: https://secure.globalsign.com/cacert/roote46.crt
+# Certificate #1 Details:
+# Original Format: DER
+# Subject: CN=GlobalSign Root E46,O=GlobalSign nv-sa,C=BE
+# Issuer: CN=GlobalSign Root E46,O=GlobalSign nv-sa,C=BE
+# Expiration Date: 2046-03-20 00:00:00
+# Serial Number: 11D2BBBA336ED4BCE62468C50D841D98E843
+# SHA256 Fingerprint: cbb9c44d84b8043e1050ea31a69f514955d7bfd2e2c6b49301019ad61d9f5058
+*/
 
 #define GLOBALSIGN1 \
 "-----BEGIN CERTIFICATE-----\n"\
@@ -248,6 +327,17 @@
 "vouXsXgxT7PntgMTzlSdriVZzH81Xwj3QEUxeCp6\n"\
 "-----END CERTIFICATE-----\n"
 
+/* 
+# Source URL: https://secure.globalsign.com/cacert/roote46.crt
+# Certificate #1 Details:
+# Original Format: DER
+# Subject: CN=GlobalSign Root E46,O=GlobalSign nv-sa,C=BE
+# Issuer: CN=GlobalSign Root E46,O=GlobalSign nv-sa,C=BE
+# Expiration Date: 2046-03-20 00:00:00
+# Serial Number: 11D2BBBA336ED4BCE62468C50D841D98E843
+# SHA256 Fingerprint: cbb9c44d84b8043e1050ea31a69f514955d7bfd2e2c6b49301019ad61d9f5058
+*/
+
 #define GLOBALSIGN2 \
 "-----BEGIN CERTIFICATE-----\n"\
 "MIICCzCCAZGgAwIBAgISEdK7ujNu1LzmJGjFDYQdmOhDMAoGCCqGSM49BAMDMEYx\n"\
@@ -262,6 +352,17 @@
 "7Zvvi5QCkxeCmb6zniz2C5GMn0oUsfZkvLtoURMMA/cVi4RguYv/Uo7njLwcAjA8\n"\
 "+RHUjE7AwWHCFUyqqx0LMV87HOIAl0Qx5v5zli/altP+CAezNIm8BZ/3Hobui3A=\n"\
 "-----END CERTIFICATE-----\n"
+
+/* 
+# Source URL: https://i.pki.goog/r2.crt
+# Certificate #1 Details:
+# Original Format: DER
+# Subject: CN=GTS Root R2,O=Google Trust Services LLC,C=US
+# Issuer: CN=GTS Root R2,O=Google Trust Services LLC,C=US
+# Expiration Date: 2036-06-22 00:00:00
+# Serial Number: 203E5AEC58D04251AAB1125AA
+# SHA256 Fingerprint: 8d25cd97229dbf70356bda4eb3cc734031e24cf00fafcfd32dc76eb5841c7ea8
+*/
 
 #define GOOGLE1 \
 "-----BEGIN CERTIFICATE-----\n"\
@@ -296,6 +397,17 @@
 "6WLAYv7YTVWW4tAR+kg0Eeye7QUd5MjWHYbL\n"\
 "-----END CERTIFICATE-----\n"
 
+/* 
+# Source URL: https://i.pki.goog/r4.crt
+# Certificate #1 Details:
+# Original Format: DER
+# Subject: CN=GTS Root R4,O=Google Trust Services LLC,C=US
+# Issuer: CN=GTS Root R4,O=Google Trust Services LLC,C=US
+# Expiration Date: 2036-06-22 00:00:00
+# Serial Number: 203E5C068EF631A9C72905052
+# SHA256 Fingerprint: 349dfa4058c5e263123b398ae795573c4e1313c83fe68f93556cd5e8031b3c7d
+*/
+
 #define GOOGLE2 \
 "-----BEGIN CERTIFICATE-----\n"\
 "MIICCTCCAY6gAwIBAgINAgPlwGjvYxqccpBQUjAKBggqhkjOPQQDAzBHMQswCQYD\n"\
@@ -310,6 +422,17 @@
 "9J+uHXqnLrmvT/aDHQ4thQEd0dlq7A/Cr8deVl5c1RxYIigL9zC2L7F8AjEA8GE8\n"\
 "p/SgguMh1YQdc4acLa/KNJvxn7kjNuK8YAOdgLOaVsjh4rsUecrNIdSUtUlD\n"\
 "-----END CERTIFICATE-----\n"
+
+/* 
+# Source URL: https://www.identrust.com/file-download/download/public/5718
+# Certificate #1 Details:
+# Original Format: PKCS7-DER
+# Subject: CN=IdenTrust Commercial Root CA 1,O=IdenTrust,C=US
+# Issuer: CN=IdenTrust Commercial Root CA 1,O=IdenTrust,C=US
+# Expiration Date: 2034-01-16 18:12:23
+# Serial Number: A0142800000014523C844B500000002
+# SHA256 Fingerprint: 5d56499be4d2e08bcfcad08a3e38723d50503bde706948e42f55603019e528ae
+*/
 
 #define IDENTRUST1 \
 "-----BEGIN CERTIFICATE-----\n"\
@@ -344,6 +467,17 @@
 "7/qxXDgGpRtK4dw4LTzcqx+QGtVKnO7RcGzM7vRX+Bi6hG6H\n"\
 "-----END CERTIFICATE-----\n"
 
+/* 
+# Source URL: https://www.identrust.com/file-download/download/public/5842
+# Certificate #1 Details:
+# Original Format: PKCS7-PEM
+# Subject: CN=IdenTrust Commercial Root TLS ECC CA 2,O=IdenTrust,C=US
+# Issuer: CN=IdenTrust Commercial Root TLS ECC CA 2,O=IdenTrust,C=US
+# Expiration Date: 2039-04-11 21:11:10
+# Serial Number: 40018ECF000DE911D7447B73E4C1F82E
+# SHA256 Fingerprint: 983d826ba9c87f653ff9e8384c5413e1d59acf19ddc9c98cecae5fdea2ac229c
+*/
+
 #define IDENTRUST2 \
 "-----BEGIN CERTIFICATE-----\n"\
 "MIICbDCCAc2gAwIBAgIQQAGOzwAN6RHXRHtz5MH4LjAKBggqhkjOPQQDBDBSMQsw\n"\
@@ -360,6 +494,17 @@
 "f6CuTwWy8VojtGxdM3PJMkJC4LGPuhcvkHLo4gJCAV5h+PXe4bDJ3QxE8hkGFoUW\n"\
 "Ak6KtMCIpbLyt5pHrROi+YW9MpScoNGJkg96G1ETvJTWz6dv0uQYjKXt3jlOfQ7g\n"\
 "-----END CERTIFICATE-----\n"
+
+/* 
+# Source URL: https://ssl-ccp.secureserver.net/repository/sfroot-g2.crt
+# Certificate #1 Details:
+# Original Format: PEM
+# Subject: CN=Starfield Root Certificate Authority - G2,O=Starfield Technologies\, Inc.,L=Scottsdale,ST=Arizona,C=US
+# Issuer: CN=Starfield Root Certificate Authority - G2,O=Starfield Technologies\, Inc.,L=Scottsdale,ST=Arizona,C=US
+# Expiration Date: 2037-12-31 23:59:59
+# Serial Number: 0
+# SHA256 Fingerprint: 2ce1cb0bf9d2f9e102993fbe215152c3b2dd0cabde1c68e5319b839154dbb7f5
+*/
 
 #define STARFIELD \
 "-----BEGIN CERTIFICATE-----\n"\
@@ -387,6 +532,6 @@
 "-----END CERTIFICATE-----\n"
 
 #define CACERT_PEM \
-    DIGICERT1_PEM DIGICERT2_PEM DIGICERT3_PEM TW1_PEM TW2_PEM DIGICERT_EVROOTCA DIGICERT_TSL1 DIGICERT_TSL2 DIGICERT_TSL3 GLOBALSIGN1 GLOBALSIGN2 GOOGLE1 GOOGLE2 IDENTRUST1 IDENTRUST2 STARFIELD
+    DIGICERT1_PEM DIGICERT2_PEM DIGICERT3_PEM TW1_PEM TW2_PEM DIGICERT_EVROOTCA DIGICERT_TSL1 DIGICERT_TSL2 GLOBALSIGN1 GLOBALSIGN2 GOOGLE1 GOOGLE2 IDENTRUST1 IDENTRUST2 STARFIELD
 
 #endif /* CACERT_H */

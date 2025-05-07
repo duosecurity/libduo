@@ -2,7 +2,7 @@
 # Copyright (c) 2013 Duo Security
 # All rights reserved, all wrongs reversed.
 
-AC_INIT([libduo], [2.1.0], [duo_unix@duosecurity.com])
+AC_INIT([libduo], [2.2.0], [duo_unix@duosecurity.com])
 AC_CONFIG_SRCDIR([duo.c])
 AC_LANG([C])
 

@@ -53,7 +53,7 @@ main(void)
 {
 	duo_t *duo;
 	duocode_t code;
-        struct duo_param params[16];
+        struct duo_param params[16] = {0};
 	char *apihost, *ikey, *skey, buf[256];
         const char *method, *uri, *body;
         int n;

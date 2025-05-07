@@ -36,6 +36,7 @@ $ DUO_API_HOST=<host-here> DUO_IKEY=<ikey-here> DUO_SKEY=<skey-here> ./test-duol
 ```
 
 Admin:
+Make sure to Grant Permissions for the Admin API application in the Duo Admin Panel.
 
 ```
 $ DUO_API_HOST=<host-here> DUO_IKEY=<ikey-here> DUO_SKEY=<skey-here> ./test-duoapi

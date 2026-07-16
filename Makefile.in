@@ -34,7 +34,8 @@ INSTALL=@INSTALL@
 
 LIBDUO_OBJS=	duo.o http_parser.o https.o match.o parson.o urlenc.o
 
-TARGETS=	libduo.a test-duoapi test-duologin
+TARGETS=	libduo.a test-duoapi test-duologin test-disable-ca-pinning \
+		test-ca-pinning-store
 
 all: $(TARGETS)
 
@@ -53,12 +54,25 @@ test-duoapi: test-duoapi.o libduo.a
 test-duologin: test-duologin.o libduo.a
 	$(LD) -o $@ test-duologin.o $(LDFLAGS) -lduo $(LIBS)
 
+test-disable-ca-pinning: test-disable-ca-pinning.o libduo.a
+	$(LD) -o $@ test-disable-ca-pinning.o $(LDFLAGS) -lduo $(LIBS)
+
+# Includes https.c to reach its file-scope trust store, so it links the other
+# objects directly instead of libduo.a, which would duplicate those symbols.
+# The include is also why this object has to name https.c as a prerequisite -
+# nothing else here tracks that dependency.
+test-ca-pinning-store.o: https.c https.h
+
+test-ca-pinning-store: test-ca-pinning-store.o http_parser.o match.o
+	$(LD) -o $@ test-ca-pinning-store.o http_parser.o match.o \
+		$(LDFLAGS) $(LIBS)
+
 clean:
 	rm -f *.o *.a $(TARGETS) config.cache config.log
-	rm -f *.out core
+	rm -f *.out core test-system-store.pem
 
 distclean:
 	rm -f *.o *.a $(TARGETS) logintest config.cache config.log
-	rm -f *.out core *~
+	rm -f *.out core *~ test-system-store.pem
 	rm -f Makefile config.h config.status
 	rm -rf autom4te.cache

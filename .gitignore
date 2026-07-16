@@ -22,5 +22,8 @@
 # Output
 test-duologin
 test-duoapi
+test-disable-ca-pinning
+test-ca-pinning-store
+test-system-store.pem
 config.*
 Makefile

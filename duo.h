@@ -25,9 +25,21 @@ struct duo_param {
 
 typedef struct duo_ctx duo_t;
 
-/* Initialize Duo API handle */
+/* Initialize Duo API handle.
+ *
+ * cafile selects the trusted roots: NULL uses the CA bundle built into
+ * libduo, "" skips certificate verification, and any other value is the
+ * path to a PEM bundle to trust instead.
+ *
+ * Set disable_ca_pinning to non-zero to validate against the system trust
+ * store rather than libduo's pinned CA bundle.  TLS verification is still
+ * enforced; only the set of trusted roots changes.  It cannot be combined
+ * with cafile, which must be NULL when pinning is disabled.  Pass 0 to keep
+ * CA pinning enabled, which is the default and recommended behavior.
+ */
 duo_t	   *duo_init(const char *apihost, const char *ikey, const char *skey,
-                const char *progname, const char *cafile, const char *proxy);
+                const char *progname, const char *cafile,
+                int disable_ca_pinning, const char *proxy);
 
 /* Configure a timeout on appropriate network operations.
  * Set seconds to the number of seconds to wait for network operations,

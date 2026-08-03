@@ -364,19 +364,27 @@ _establish_connection(struct https_request * const req,
 }
 
 HTTPScode
-https_init(const char *useragent, const char *cafile, const char *proxy)
+https_init(const char *useragent, const char *cafile,
+           int disable_ca_pinning, const char *proxy)
 {
         X509_STORE *store;
         X509 *cert;
         BIO *bio;
         char *p;
-        
+
         if ((ctx = calloc(1, sizeof(*ctx))) == NULL) {
                 return (HTTPS_ERR_SYSTEM);
         }
         if ((ctx->useragent = strdup(useragent)) == NULL) {
                 ctx->errstr = strerror(errno);
                 return (HTTPS_ERR_SYSTEM);
+        }
+        /* Disabling CA pinning selects the system trust store, so it cannot be
+         * combined with an explicit cafile - neither a custom bundle nor the
+         * empty string that requests no verification at all. */
+        if (disable_ca_pinning && cafile != NULL) {
+                ctx->errstr = "Cannot both disable CA pinning and provide a custom CA file";
+                return (HTTPS_ERR_CLIENT);
         }
         /* Initialize SSL context */
         SSL_library_init();
@@ -401,7 +409,18 @@ https_init(const char *useragent, const char *cafile, const char *proxy)
         const long blacklist = SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3;
         SSL_CTX_set_options(ctx->ssl_ctx, blacklist);
         /* Set up our CA cert */
-        if (cafile == NULL) {
+        if (disable_ca_pinning) {
+                /* Use the system trust store instead of our pinned bundle.
+                 * TLS verification stays enforced - only the set of trusted
+                 * roots changes. */
+                if (!SSL_CTX_set_default_verify_paths(ctx->ssl_ctx)) {
+                        SSL_CTX_free(ctx->ssl_ctx);
+                        ctx->ssl_ctx = NULL;
+                        ctx->errstr = _SSL_strerror();
+                        return (HTTPS_ERR_LIB);
+                }
+                SSL_CTX_set_verify(ctx->ssl_ctx, SSL_VERIFY_PEER, NULL);
+        } else if (cafile == NULL) {
                 /* Load default CA cert from memory */
                 if ((bio = BIO_new_mem_buf((void *)CACERT_PEM, -1)) == NULL ||
                     (store = SSL_CTX_get_cert_store(ctx->ssl_ctx)) == NULL) {
@@ -414,7 +433,7 @@ https_init(const char *useragent, const char *cafile, const char *proxy)
                 }
                 BIO_free_all(bio);
                 SSL_CTX_set_verify(ctx->ssl_ctx, SSL_VERIFY_PEER, NULL);
-        } else if (cafile[0] == '\0') {                
+        } else if (cafile[0] == '\0') {
                 /* Skip verification */
                 SSL_CTX_set_verify(ctx->ssl_ctx, SSL_VERIFY_NONE, NULL);
         } else {

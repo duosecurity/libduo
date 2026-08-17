@@ -365,7 +365,7 @@ _establish_connection(struct https_request * const req,
 
 HTTPScode
 https_init(const char *useragent, const char *cafile,
-           int disable_ca_pinning, const char *proxy)
+           const char *proxy, int disable_ca_pinning)
 {
         X509_STORE *store;
         X509 *cert;

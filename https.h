@@ -27,7 +27,7 @@ typedef enum {
  * mutually exclusive with cafile, which must be NULL in that case.
  */
 HTTPScode   https_init(const char *useragent, const char *cafile,
-                       int disable_ca_pinning, const char *proxy);
+                       const char *proxy, int disable_ca_pinning);
 
 /* Open HTTPS connection to host[:port] */
 HTTPScode   https_open(https_t **hp, const char *host);

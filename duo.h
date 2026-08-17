@@ -38,8 +38,8 @@ typedef struct duo_ctx duo_t;
  * CA pinning enabled, which is the default and recommended behavior.
  */
 duo_t	   *duo_init(const char *apihost, const char *ikey, const char *skey,
-                const char *progname, const char *cafile,
-                int disable_ca_pinning, const char *proxy);
+                const char *progname, const char *cafile, const char *proxy,
+                int disable_ca_pinning);
 
 /* Configure a timeout on appropriate network operations.
  * Set seconds to the number of seconds to wait for network operations,

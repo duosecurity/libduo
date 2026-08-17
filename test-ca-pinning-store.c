@@ -173,7 +173,7 @@ test_pinned_store_is_the_bundle(void)
         int expected, got;
 
         expected = pinned_bundle_size();
-        if (https_init("test-agent/1.0", NULL, 0, NULL) != HTTPS_OK) {
+        if (https_init("test-agent/1.0", NULL, NULL, 0) != HTTPS_OK) {
                 check("pinned store holds the bundled certificates", 0,
                     "https_init failed");
                 return;
@@ -206,7 +206,7 @@ test_disabled_store_is_the_system_store(void)
                     "could not stage a system trust store");
                 return;
         }
-        if (https_init("test-agent/1.0", NULL, 1, NULL) != HTTPS_OK) {
+        if (https_init("test-agent/1.0", NULL, NULL, 1) != HTTPS_OK) {
                 check("disabled pinning installs the system trust store", 0,
                     "https_init failed");
                 goto done;
@@ -234,7 +234,7 @@ test_disabled_still_verifies_the_peer(void)
         char buf[128];
         int mode;
 
-        if (https_init("test-agent/1.0", NULL, 1, NULL) != HTTPS_OK) {
+        if (https_init("test-agent/1.0", NULL, NULL, 1) != HTTPS_OK) {
                 check("disabled pinning still verifies the peer", 0,
                     "https_init failed");
                 return;

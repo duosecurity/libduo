@@ -37,7 +37,7 @@ main(int argc, char *argv[])
 		exit(1);
 	}
 	if ((duo = duo_init(apihost, ikey, skey,
-                    "test-duoapi/" PACKAGE_VERSION, NULL, 0, NULL)) == NULL) {
+                    "test-duoapi/" PACKAGE_VERSION, NULL, NULL, 0)) == NULL) {
 		fprintf(stderr, "duo_init failed\n");
 		exit(1);
 	}

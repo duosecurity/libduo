@@ -50,7 +50,7 @@ test_pinning_enabled_by_default(void)
         char buf[256];
         HTTPScode rc;
 
-        rc = https_init("test-agent/1.0", NULL, 0, NULL);
+        rc = https_init("test-agent/1.0", NULL, NULL, 0);
         describe(buf, sizeof(buf), HTTPS_OK, rc);
         check("CA pinning enabled by default", rc == HTTPS_OK, buf);
 }
@@ -62,7 +62,7 @@ test_disable_ca_pinning(void)
         char buf[256];
         HTTPScode rc;
 
-        rc = https_init("test-agent/1.0", NULL, 1, NULL);
+        rc = https_init("test-agent/1.0", NULL, NULL, 1);
         describe(buf, sizeof(buf), HTTPS_OK, rc);
         check("disable_ca_pinning uses the system trust store",
             rc == HTTPS_OK, buf);
@@ -76,7 +76,7 @@ test_cafile_still_honoured_when_pinning_enabled(void)
         char buf[256];
         HTTPScode rc;
 
-        rc = https_init("test-agent/1.0", "/nonexistent/path.pem", 0, NULL);
+        rc = https_init("test-agent/1.0", "/nonexistent/path.pem", NULL, 0);
         describe(buf, sizeof(buf), HTTPS_ERR_CLIENT, rc);
         check("a bad CA file path is still an error when pinning is enabled",
             rc == HTTPS_ERR_CLIENT, buf);
@@ -91,13 +91,13 @@ test_duo_init_accepts_the_option(void)
         duo_t *duo;
 
         duo = duo_init("api-00000000.duosecurity.com", "ikey", "skey",
-            "test-disable-ca-pinning/" PACKAGE_VERSION, NULL, 0, NULL);
+            "test-disable-ca-pinning/" PACKAGE_VERSION, NULL, NULL, 0);
         check("duo_init succeeds with CA pinning enabled", duo != NULL,
             "duo_init returned NULL");
         duo_close(duo);
 
         duo = duo_init("api-00000000.duosecurity.com", "ikey", "skey",
-            "test-disable-ca-pinning/" PACKAGE_VERSION, NULL, 1, NULL);
+            "test-disable-ca-pinning/" PACKAGE_VERSION, NULL, NULL, 1);
         check("duo_init succeeds with CA pinning disabled", duo != NULL,
             "duo_init returned NULL");
         duo_close(duo);
@@ -122,8 +122,8 @@ test_duo_init_rejects_conflicting_options(void)
                 const char *err;
 
                 duo = duo_init("api-00000000.duosecurity.com", "ikey", "skey",
-                    "test-disable-ca-pinning/" PACKAGE_VERSION, cafiles[i], 1,
-                    NULL);
+                    "test-disable-ca-pinning/" PACKAGE_VERSION, cafiles[i],
+                    NULL, 1);
                 err = https_geterr();
                 snprintf(buf, sizeof(buf), "cafile=\"%s\", handle=%s, err=%s",
                     cafiles[i], duo == NULL ? "NULL" : "non-NULL",

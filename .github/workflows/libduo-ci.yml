@@ -22,5 +22,11 @@ jobs:
       - name: Build
         run: ./configure && make
 
+      - name: Test CA pinning options
+        run: ./test-disable-ca-pinning
+
+      - name: Test CA pinning trust store
+        run: ./test-ca-pinning-store
+
       - name: Static analysis
         run: cppcheck --quiet --force  --suppressions-list=.false_positive.txt --error-exitcode=1 .

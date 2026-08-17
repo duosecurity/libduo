@@ -20,9 +20,14 @@ typedef enum {
         HTTPS_ERR_SERVER,	/* something the server did */
 } HTTPScode;
 
-/* Initialize HTTPS library - do this once! */
+/* Initialize HTTPS library - do this once!
+ *
+ * Set disable_ca_pinning to non-zero to verify against the system trust store
+ * instead of the pinned CA bundle.  TLS verification remains enforced.  It is
+ * mutually exclusive with cafile, which must be NULL in that case.
+ */
 HTTPScode   https_init(const char *useragent, const char *cafile,
-                       const char *proxy);
+                       const char *proxy, int disable_ca_pinning);
 
 /* Open HTTPS connection to host[:port] */
 HTTPScode   https_open(https_t **hp, const char *host);

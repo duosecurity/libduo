@@ -67,7 +67,8 @@ HMAC_CTX_free(HMAC_CTX *ctx)
 /* Initialize Duo API handle */
 struct duo_ctx *
 duo_init(const char *apihost, const char *ikey, const char *skey,
-    const char *progname, const char *cafile, const char *proxy)
+    const char *progname, const char *cafile, const char *proxy,
+    int disable_ca_pinning)
 {
         struct duo_ctx *ctx;
         char useragent[128];
@@ -82,7 +83,7 @@ duo_init(const char *apihost, const char *ikey, const char *skey,
                 progname, CANONICAL_HOST, PACKAGE_VERSION) >= sizeof(useragent)) {
                 return (duo_close(ctx));
         }
-        if (https_init(useragent, cafile, proxy) != HTTPS_OK) {
+        if (https_init(useragent, cafile, proxy, disable_ca_pinning) != HTTPS_OK) {
                 ctx = duo_close(ctx);
         } else
         {

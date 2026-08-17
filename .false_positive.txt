@@ -1,6 +1,6 @@
 // Suppress "Memory leak" error in `return (duo_auth_free(auth));`
-*:duo.c:479
+*:duo.c:480
 // Suppress "Memory leak" error in `return (duo_auth_free(auth));`
-*:duo.c:487
+*:duo.c:488
 // Suppress "Memory leak" error in `return (auth);`
-*:duo.c:527
+*:duo.c:528

@@ -35,7 +35,7 @@ INSTALL=@INSTALL@
 LIBDUO_OBJS=	duo.o http_parser.o https.o match.o parson.o urlenc.o
 
 TARGETS=	libduo.a test-duoapi test-duologin test-disable-ca-pinning \
-		test-ca-pinning-store
+		test-ca-pinning-store test-useragent
 
 all: $(TARGETS)
 
@@ -65,6 +65,14 @@ test-ca-pinning-store.o: https.c https.h
 
 test-ca-pinning-store: test-ca-pinning-store.o http_parser.o match.o
 	$(LD) -o $@ test-ca-pinning-store.o http_parser.o match.o \
+		$(LDFLAGS) $(LIBS)
+
+# Same pattern as test-ca-pinning-store: includes https.c directly to
+# inspect the file-scope ctx->useragent field.
+test-useragent.o: https.c https.h
+
+test-useragent: test-useragent.o http_parser.o match.o
+	$(LD) -o $@ test-useragent.o http_parser.o match.o \
 		$(LDFLAGS) $(LIBS)
 
 clean:

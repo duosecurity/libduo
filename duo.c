@@ -26,6 +26,8 @@
 #include "parson.h"
 #include "urlenc.h"
 
+#define CA_BUNDLE_VERSION "1.0"
+
 struct duo_ctx {
         https_t    *https;               /* HTTPS handle */
         char       *host;                /* host[:port] */
@@ -71,7 +73,7 @@ duo_init(const char *apihost, const char *ikey, const char *skey,
     int disable_ca_pinning)
 {
         struct duo_ctx *ctx;
-        char useragent[128];
+        char useragent[256];
 
         if ((ctx = calloc(1, sizeof(*ctx))) == NULL ||
             (ctx->host = strdup(apihost)) == NULL ||
@@ -79,8 +81,11 @@ duo_init(const char *apihost, const char *ikey, const char *skey,
             (ctx->skey = strdup(skey)) == NULL) {
                 return (duo_close(ctx));
         }
-        if (snprintf(useragent, sizeof(useragent), "%s (%s) libduo/%s",
-                progname, CANONICAL_HOST, PACKAGE_VERSION) >= sizeof(useragent)) {
+        if (snprintf(useragent, sizeof(useragent),
+                "%s (%s) libduo/%s ca_bundle/%s (ca_pinning=%s)",
+                progname, CANONICAL_HOST, PACKAGE_VERSION,
+                CA_BUNDLE_VERSION,
+                disable_ca_pinning ? "disabled" : "enabled") >= sizeof(useragent)) {
                 return (duo_close(ctx));
         }
         if (https_init(useragent, cafile, proxy, disable_ca_pinning) != HTTPS_OK) {
